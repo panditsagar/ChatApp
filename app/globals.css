@@ -55,3 +55,11 @@ body {
 }
 
 
+.user-hover-card {
+  position: relative;
+}
+
+.user-hover-card:hover .hover-preview {
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(0px) scale(1) !important;
+}

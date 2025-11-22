@@ -43,8 +43,8 @@ export default function UsersList() {
   );
 
   return (
-    <div className="min-w-md mx-auto mt-20 px-4">
-      <h1 className="text-3xl font-semibold text-white mb-6 text-center">
+    <div className="min-w-md mx-auto mt-22 px-4">
+      <h1 className="text-2xl font-semibold text-white mb-2 text-center">
         Select User to Chat
       </h1>
 
@@ -61,23 +61,108 @@ export default function UsersList() {
       </div>
 
       {/* USER LIST */}
-      <div className="max-h-[65vh] overflow-y-auto space-y-3  scrollbar-hide">
+      <div className="max-h-[70vh] overflow-y-auto space-y-3  scrollbar-hide">
         {filtered.map((u) => (
           <div
             key={u.firebase_uid}
-            className="flex items-center justify-between p-4 bg-white/10 rounded-lg hover:bg-white/20 transition"
+            className="flex items-center justify-between p-4 bg-white/10 rounded-lg hover:bg-white/20 transition "
           >
             <div className="flex items-center gap-4">
-              {u.avatar ? (
-                <img
-                  src={u.avatar}
-                  className="w-12 h-12 rounded-full object-cover 0"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white text-xl font-bold">
-                  {u.name?.[0]?.toUpperCase()}
+              <div className="relative user-hover-card">
+                <div className="relative user-hover-card flex items-center">
+                  {u.avatar ? (
+                    <>
+                      {/* Main Avatar */}
+                      <img
+                        src={u.avatar}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+
+                      {/* Hover Preview + Arrow */}
+                      <div
+                        className="
+          hover-preview absolute
+          left-4
+          top-1  
+          flex items-center
+          opacity-0 scale-75 translate-x-4
+          transition-all duration-300 ease-out pointer-events-none 
+        "
+                      >
+                        {/* Tiny Connector Arrow */}
+                        <div
+                          className="
+            w-0 h-0
+            border-t-[8px] border-t-transparent
+            border-b-[8px] border-b-transparent
+            border-r-[10px] border-r-white/30
+            mr-2
+            drop-shadow-sm
+          "
+                        />
+
+                        {/* Square Preview */}
+                        <div
+                          className="
+            w-44 h-52 rounded-xl overflow-hidden
+            bg-white/20
+             flex items-center justify-center
+          "
+                        >
+                          <img
+                            src={u.avatar}
+                            className=" w-38 h-46 object-cover rounded-xl "
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Round Circle Initial */}
+                      <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white text-xl font-bold">
+                        {u.name?.[0]?.toUpperCase()}
+                      </div>
+
+                      {/* Hover Preview (Square With Initial / Name) */}
+                      <div
+                        className="
+          hover-preview absolute 
+          left-4
+          top-0
+          flex items-center
+          opacity-0 scale-75 translate-x-4
+          transition-all duration-300 ease-out pointer-events-none
+        "
+                      >
+                        {/* Tiny Arrow */}
+                        <div
+                          className="
+            w-0 h-0
+            border-t-[8px] border-t-transparent
+            border-b-[8px] border-b-transparent
+            border-r-[10px] border-r-white/30
+            mr-2 drop-shadow-sm
+          "
+                        />
+
+                        {/* Square Preview - No Avatar Case */}
+                        <div
+                          className="
+            w-44 h-52 rounded-xl
+            bg-white/10
+            flex items-center justify-center
+            text-white font-semibold text-2xl
+          "
+                        >
+                         <div className="w-38 h-46 bg-white/20  backdrop-blur-lg rounded-xl flex items-center justify-center "> 
+                           {u.name?.split(" ")[0] || u.name}
+                         </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              )}
+              </div>
 
               <div>
                 <p className="text-white font-medium">{u.name}</p>
@@ -89,7 +174,7 @@ export default function UsersList() {
               onClick={() => router.push(`/chat/${u.firebase_uid}`)}
               className="flex items-center  gap-2 bg-cyan-600 px-3 py-1.5 rounded-lg cursor-pointer text-white hover:bg-cyan-700"
             >
-              <IoChatboxEllipsesOutline size={18} className="mt-1"/>
+              <IoChatboxEllipsesOutline size={18} className="mt-1" />
               Chat
             </button>
           </div>

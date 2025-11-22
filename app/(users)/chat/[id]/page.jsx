@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/lib/api";
 import socket from "@/lib/socket";
@@ -27,12 +27,13 @@ export default function ChatPage() {
     if (!loading && !user) router.push("/login");
   }, [loading, user]);
 
-
-  
-
+  const startedChat = useRef(false);
   // INITIAL LOAD
   useEffect(() => {
+    if (startedChat.current) return;
     if (!loading && user) {
+      startedChat.current = true;
+
       (async () => {
         try {
           const res = await api.post("/chat/start", {
