@@ -50,23 +50,31 @@ export default function ChatPage() {
 
           // If entering from /chat/:uid (personal chat)
           if (receiverUid) {
-            const res = await api.post("/chat/start", {
-              receiver_uid: receiverUid,
-            });
+  const res = await api.post("/chat/start", {
+    receiver_uid: receiverUid,
+  });
 
-            const chat = res.chat;
+  const chat = res.chat;
 
-            const fullChat =
-              list.chats.find(
-                (x) => x.chat_id == chat.chat_id || x.chat_id == chat.id
-              ) || chat;
+  // 🔥 Immediately refresh sidebar chats
+  const updatedList = await api.get("/chat/list");
+  setChats(updatedList.chats || []);
 
-            setCurrentChat({ ...fullChat, isGroup: false });
+  // 🔥 FIX: Correctly find the newly created chat
+  const fullChat =
+    updatedList.chats.find(
+      (x) => x.chat_id == chat.chat_id || x.chat_id == chat.id
+    ) || chat;
 
-            const id = fullChat.chat_id || fullChat.id;
-            const msgs = await api.get(`/chat/messages/${id}`);
-            setMessages(msgs.messages || []);
-          }
+  // 🔥 SET CURRENT CHAT (this makes chat window show instantly)
+  setCurrentChat({ ...fullChat, isGroup: false });
+
+  // 🔥 load messages for that chat
+  const id = fullChat.chat_id || fullChat.id;
+  const msgs = await api.get(`/chat/messages/${id}`);
+  setMessages(msgs.messages || []);
+}
+
         } catch (err) {
           console.log("init error", err);
         }

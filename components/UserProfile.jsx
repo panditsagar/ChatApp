@@ -51,7 +51,7 @@ export default function UserProfile() {
 
       const token = await auth.currentUser.getIdToken();
 
-      const res = await fetch("https://chatapp-api-omjh.onrender.com/api/upload", {
+      const res = await fetch("https://chatapp-api-production-d8c0.up.railway.app/api/upload", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
