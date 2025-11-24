@@ -269,7 +269,7 @@ export default function ChatWindow({
     setSendingImage(true);
 
     const token = await auth.currentUser.getIdToken();
-    const res = await fetch("http://localhost:5000/api/upload", {
+    const res = await fetch("https://chatapp-api-omjh.onrender.com/api/upload", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: form,
@@ -298,7 +298,7 @@ export default function ChatWindow({
     form.append("file", file);
 
     const token = await auth.currentUser.getIdToken();
-    const res = await fetch("http://localhost:5000/api/upload", {
+    const res = await fetch("https://chatapp-api-omjh.onrender.com/api/upload", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: form,
